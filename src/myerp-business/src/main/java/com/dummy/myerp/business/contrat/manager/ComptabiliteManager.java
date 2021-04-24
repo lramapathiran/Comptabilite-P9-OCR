@@ -94,10 +94,10 @@ public interface ComptabiliteManager {
      * @throws NotFoundException 
      */
 //    List<SequenceEcritureComptable> getListSequenceEcritureComptable();    
-    SequenceEcritureComptable getSequenceEcritureComptableByYear(Integer year) throws NotFoundException;
+    SequenceEcritureComptable getSequenceEcritureComptableByYearAndCode(Integer year, String journalCode) throws NotFoundException;
 
 //  AJOUT DE METHODES INSERT/UPDATE SequenceEcritureComptable POUR COMPLETER TODO dans addReference() dans ComptabiliteManagerImpl
-    // ==================== SequenceEcritureComptable - INSERT ====================  
+    // ==================== SequenceEcritureComptable - INSERT ====================
     /**
      * Insert une nouvelle séquence d'écriture comptable.
      *
@@ -118,6 +118,5 @@ public interface ComptabiliteManager {
 			throws FunctionalException;
 
 //	Test
-	EcritureComptable getEcritureComptableById(int id) throws NotFoundException;	
-
+	EcritureComptable getEcritureComptableById(int id) throws NotFoundException;
 }

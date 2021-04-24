@@ -54,6 +54,10 @@
 	    <property name="password" value="myerp" />
 	</bean>
 
+    <!-- PlatformTransactionManager pour le DataSource MYERP rajouté pour faire les tests d'IT -->
+    <bean id="txManagerMYERP" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSourceMYERP"/>
+    </bean>
 
     <!-- ========== SQL ========== -->
     <import resource="sqlContext.xml"/>

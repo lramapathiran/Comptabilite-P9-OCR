@@ -303,22 +303,23 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 //      return vList;
 //  }
   
-  /** SQLgetSequenceEcritureComptableByYear */
-    private static String SQLgetSequenceEcritureComptableByYear;
-    public void setSQLgetSequenceEcritureComptableByYear(String pSQLgetSequenceEcritureComptableByYear) {
-        SQLgetSequenceEcritureComptableByYear = pSQLgetSequenceEcritureComptableByYear;
+  /** SQLgetSequenceEcritureComptableByYearAndCode */
+    private static String SQLgetSequenceEcritureComptableByYearAndCode;
+    public void setSQLgetSequenceEcritureComptableByYearAndCode(String pSQLgetSequenceEcritureComptableByYearAndCode) {
+        SQLgetSequenceEcritureComptableByYearAndCode = pSQLgetSequenceEcritureComptableByYearAndCode;
     }
     @Override
-    public SequenceEcritureComptable getSequenceEcritureComptableByYear(Integer pYear) throws NotFoundException {
+    public SequenceEcritureComptable getSequenceEcritureComptableByYearAndCode(Integer pYear, String pJournalCode) throws NotFoundException {
         NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
         MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
         vSqlParams.addValue("annee", pYear);
+        vSqlParams.addValue("journal_code", pJournalCode);
         SequenceEcritureComptableRM vRM = new SequenceEcritureComptableRM();
         SequenceEcritureComptable vBean;
         try {
-            vBean = vJdbcTemplate.queryForObject(SQLgetSequenceEcritureComptableByYear, vSqlParams, vRM);
+            vBean = vJdbcTemplate.queryForObject(SQLgetSequenceEcritureComptableByYearAndCode, vSqlParams, vRM);
         } catch (EmptyResultDataAccessException vEx) {
-            throw new NotFoundException("Séquence d'EcritureComptable non trouvée : année=" + pYear);
+            throw new NotFoundException("Séquence d'EcritureComptable non trouvée : pour l'année=" + pYear + " et pour le code=" + pJournalCode );
         }
         return vBean;
     }
@@ -326,7 +327,7 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
 //AJOUT DE METHODES INSERT/UPDATE SequenceEcritureComptable POUR COMPLETER TODO dans addReference() dans ComptabiliteManagerImpl
   // ==================== SequenceEcritureComptable - INSERT ====================
   
-  /** SQLinsertEcritureComptable */
+  /** SQLinsertSequenceEcritureComptable */
   private static String SQLinsertSequenceEcritureComptable;
   public void setSQLinsertSequenceEcritureComptable(String pSQLinsertSequenceEcritureComptable) {
       SQLinsertSequenceEcritureComptable = pSQLinsertSequenceEcritureComptable;

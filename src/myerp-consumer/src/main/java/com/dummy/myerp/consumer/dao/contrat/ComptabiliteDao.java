@@ -90,7 +90,7 @@ public interface ComptabiliteDao {
 //    List<SequenceEcritureComptable> getListSequenceEcritureComptable();
 //    void loadListSequenceEcritureComptable(JournalComptable pJournalComptable);
     
-    SequenceEcritureComptable getSequenceEcritureComptableByYear(Integer pYear) throws NotFoundException;
+    SequenceEcritureComptable getSequenceEcritureComptableByYearAndCode(Integer pYear, String pJournalCode) throws NotFoundException;
     
 //  AJOUT DE METHODES INSERT/UPDATE POUR COMPLETER TODO dans addReference() dans ComptabiliteManagerImpl
 	 /**

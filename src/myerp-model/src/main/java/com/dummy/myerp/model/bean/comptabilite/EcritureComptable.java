@@ -25,7 +25,7 @@ public class EcritureComptable {
     @NotNull private JournalComptable journal;
     /** The Reference. */
     // Erreur au niveau du regex, initialement regexp = "\\d{1,5}-\\d{4}/\\d{5}"
-    @Pattern(regexp = "\\w{2}-\\d{4}/\\d{5}")
+    @Pattern(regexp = "[A-Z]{1,5}-\\d{4}/\\d{5}")
     private String reference;
     /** The Date. */
     @NotNull private Date date;
@@ -53,8 +53,8 @@ public class EcritureComptable {
      * @param pAnnee -
      * @param pDerniereValeur -
      */
-    public EcritureComptable(String journalCode, String reference, Date date, String libelle) {
-    	journalCode = journalCode;
+    public EcritureComptable(JournalComptable journalComptable, String reference, Date date, String libelle) {
+    	journalComptable = journalComptable;
     	reference = reference;
     	date = date;
     	libelle = libelle;

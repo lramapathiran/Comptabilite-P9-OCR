@@ -60,24 +60,24 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     public List<EcritureComptable> getListEcritureComptable() {
         return getDaoProxy().getComptabiliteDao().getListEcritureComptable();
     }
-    
+
     @Override
-    public SequenceEcritureComptable getSequenceEcritureComptableByYear(Integer year) throws NotFoundException {
-    	return getDaoProxy().getComptabiliteDao().getSequenceEcritureComptableByYear(year);
+    public SequenceEcritureComptable getSequenceEcritureComptableByYearAndCode(Integer year, String journalCode) throws NotFoundException {
+    	return getDaoProxy().getComptabiliteDao().getSequenceEcritureComptableByYearAndCode(year, journalCode);
     }
     
     
 //    Test
     @Override
     public EcritureComptable getEcritureComptableById(int id) throws NotFoundException {
-        EcritureComptable ec = null;
+        EcritureComptable eComptable = null;
         try {
-            ec = getDaoProxy().getComptabiliteDao().getEcritureComptable(id);
+            eComptable = getDaoProxy().getComptabiliteDao().getEcritureComptable(id);
         } catch (NotFoundException nfe){
             throw new NotFoundException();
         }
 
-        return ec ;
+        return eComptable ;
     }
 
 
@@ -123,7 +123,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 //			}
 //		}
 		
-		SequenceEcritureComptable sEComptable = getDaoProxy().getComptabiliteDao().getSequenceEcritureComptableByYear(year);
+		SequenceEcritureComptable sEComptable = getSequenceEcritureComptableByYearAndCode(year,journalCode);
 		if(sEComptable != null) {
 			referenceNumber = sEComptable.getDerniereValeur() + 1;				
 			sEComptable.setDerniereValeur(referenceNumber);
@@ -228,19 +228,15 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         c.setTime(date);
         int year = c.get(Calendar.YEAR);
         
-        Pattern pattern = Pattern.compile("\\w{2}-\\d{4}/\\d{5}");
+        Pattern pattern = Pattern.compile("[A-Z]{1,5}-\\d{4}/\\d{5}");
         Matcher matcher = pattern.matcher(reference);
         
         if (matcher.find()) {                                  
         	if (!reference.contains(code) || !reference.contains(Integer.toString(year))) {
         		throw new FunctionalException(
                         "L'écriture comptable doit avoir une référence avec un format valide, il doit contenir"
-                        + " le code Journal : " + code + "et l'année : " + year);
+                        + " le code Journal : " + code + " et l'année : " + year);
         	}
-        }else{
-        	throw new FunctionalException(
-                    "L'écriture comptable doit avoir une référence avec un format valide (XX-AAAA/#####) de type "
-                    + "code Journal-année-XXXXX: " + code + "-" + year +  "/XXXXX");
         }
         //FIN TODO==== RG_Compta_5        
     }
@@ -319,10 +315,10 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
             getTransactionManager().rollbackMyERP(vTS);
         }
     }
-    
+
 //  AJOUT DE METHODES INSERT/UPDATE SequenceEcritureComptable POUR COMPLETER TODO dans addReference() dans ComptabiliteManagerImpl
-    // ==================== SequenceEcritureComptable - INSERT ====================  
-    
+    // ==================== SequenceEcritureComptable - INSERT ====================
+
     /**
      * {@inheritDoc}
      */
