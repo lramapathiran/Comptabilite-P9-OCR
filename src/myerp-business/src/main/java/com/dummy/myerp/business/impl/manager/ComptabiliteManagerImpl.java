@@ -122,24 +122,21 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 //				break;				
 //			}
 //		}
-		
-		SequenceEcritureComptable sEComptable = getSequenceEcritureComptableByYearAndCode(year,journalCode);
-		if(sEComptable != null) {
-			referenceNumber = sEComptable.getDerniereValeur() + 1;				
-			sEComptable.setDerniereValeur(referenceNumber);
-			getDaoProxy().getComptabiliteDao().updateSequenceEcritureComptable(sEComptable);
-		}
-		
-		//		Si aucune séquence d'écriture ne matche pour l'année recherchée
-		//		alors le numéro pour la référence prend la valeur initiale 00001 
-		//		(ce qui correspond à la 3ieme partie du pattern soit #####) 		
-		//		Une nouvelle séquence d'écriture comptable est créée et et on utilise la méthode INSERT.		
-		if(referenceNumber == 0) {
-			referenceNumber = 1;
-			SequenceEcritureComptable sEComptableToCreate = new SequenceEcritureComptable(year, referenceNumber, journalCode);
-			getDaoProxy().getComptabiliteDao().insertSequenceEcritureComptable(sEComptableToCreate);
-			
-		}
+		try {
+            SequenceEcritureComptable sEComptable = getSequenceEcritureComptableByYearAndCode(year, journalCode);
+            referenceNumber = sEComptable.getDerniereValeur() + 1;
+            sEComptable.setDerniereValeur(referenceNumber);
+            getDaoProxy().getComptabiliteDao().updateSequenceEcritureComptable(sEComptable);
+		}catch (NotFoundException e) {
+            //		Si aucune séquence d'écriture ne matche pour l'année recherchée
+            //		alors le numéro pour la référence prend la valeur initiale 00001
+            //		(ce qui correspond à la 3ieme partie du pattern soit #####)
+            //		Une nouvelle séquence d'écriture comptable est créée et et on utilise la méthode INSERT.
+
+            referenceNumber = 1;
+            SequenceEcritureComptable sEComptableToCreate = new SequenceEcritureComptable(year, referenceNumber, journalCode);
+            getDaoProxy().getComptabiliteDao().insertSequenceEcritureComptable(sEComptableToCreate);
+        }
 		
 		int NumberOfDigits = String.valueOf(referenceNumber).length();
 		int zeroToAdd = 5 - NumberOfDigits;
@@ -220,23 +217,26 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
         // TODO ===== RG_Compta_5 : Format et contenu de la référence
         // vérifier que l'année dans la référence correspond bien à la date de l'écriture, idem pour le code journal...        
         String reference = pEcritureComptable.getReference();
-        String code = pEcritureComptable.getJournal().getCode();
-        
+
+        if(reference != null) {
+            String code = pEcritureComptable.getJournal().getCode();
+
 //        Determiner l'année
-        Date date = pEcritureComptable.getDate();
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        int year = c.get(Calendar.YEAR);
-        
-        Pattern pattern = Pattern.compile("[A-Z]{1,5}-\\d{4}/\\d{5}");
-        Matcher matcher = pattern.matcher(reference);
-        
-        if (matcher.find()) {                                  
-        	if (!reference.contains(code) || !reference.contains(Integer.toString(year))) {
-        		throw new FunctionalException(
-                        "L'écriture comptable doit avoir une référence avec un format valide, il doit contenir"
-                        + " le code Journal : " + code + " et l'année : " + year);
-        	}
+            Date date = pEcritureComptable.getDate();
+            Calendar c = Calendar.getInstance();
+            c.setTime(date);
+            int year = c.get(Calendar.YEAR);
+
+            Pattern pattern = Pattern.compile("[A-Z]{1,5}-\\d{4}/\\d{5}");
+            Matcher matcher = pattern.matcher(reference);
+
+            if (matcher.find()) {
+                if (!reference.contains(code) || !reference.contains(Integer.toString(year))) {
+                    throw new FunctionalException(
+                            "L'écriture comptable doit avoir une référence avec un format valide, il doit contenir"
+                                    + " le code Journal : " + code + " et l'année : " + year);
+                }
+            }
         }
         //FIN TODO==== RG_Compta_5        
     }

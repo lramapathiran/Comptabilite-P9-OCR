@@ -90,6 +90,7 @@
             </value>
         </property>
 
+<!-- Ajout de requêtes pour le todo addReference de ComptabiliteManagerImpl.java -->
         <property name="SQLgetSequenceEcritureComptableByYearAndCode">
             <value>
                 SELECT * FROM myerp.sequence_ecriture_comptable
@@ -97,6 +98,29 @@
                 journal_code = :journal_code
             </value>
         </property>
+        
+        <property name="SQLinsertSequenceEcritureComptable">
+            <value>
+                INSERT INTO myerp.sequence_ecriture_comptable (
+                    journal_code, annee, derniere_valeur
+                ) VALUES (
+                    :journal_code, :annee, :derniere_valeur
+                )
+            </value>
+        </property>
+        
+        <property name="SQLupdateSequenceEcritureComptable">
+            <value>
+                UPDATE myerp.sequence_ecriture_comptable SET
+                    journal_code = :journal_code,
+                    annee = :annee,
+                    derniere_valeur = :derniere_valeur
+                WHERE
+                    journal_code = :journal_code AND
+                    annee = :annee
+            </value>
+        </property>
+<!-- fin d'ajout des requêtes -->
     </bean>
 
 </beans>

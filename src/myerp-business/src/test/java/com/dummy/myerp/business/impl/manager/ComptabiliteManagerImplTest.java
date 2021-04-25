@@ -329,7 +329,7 @@ public class ComptabiliteManagerImplTest {
 
         String code = vEcritureComptable.getJournal().getCode();
 
-        when(pDaoProxy.getComptabiliteDao().getSequenceEcritureComptableByYearAndCode(year,code)).thenReturn(null);
+        when(pDaoProxy.getComptabiliteDao().getSequenceEcritureComptableByYearAndCode(year,code)).thenThrow(NotFoundException.class);
         manager.addReference(vEcritureComptable);
 
         verify(comptabiliteDao).getSequenceEcritureComptableByYearAndCode(year,code);
