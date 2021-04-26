@@ -7,6 +7,7 @@ services:
 
 before_install:
   - docker-compose -f docker/dev/docker-compose.yml up -d
+  - cd src
 
 script:
   # the following command line builds the project, runs the tests
