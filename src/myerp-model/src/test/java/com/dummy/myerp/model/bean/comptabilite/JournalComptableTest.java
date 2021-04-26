@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class JournalComptableTest {
 	
 	@Test
-	void getJournalComptableByCodeTest() {
+	public void getJournalComptableByCodeTest() {
 		
 		JournalComptable jComptable;
 		jComptable = new JournalComptable();
@@ -25,7 +25,7 @@ public class JournalComptableTest {
 	}
 	
 	@Test
-	void getJournalComptableByCodeIfCodeDontMatchTest() {
+	public void getJournalComptableByCodeIfCodeDontMatchTest() {
 		
 		JournalComptable jComptable;
 		jComptable = new JournalComptable();

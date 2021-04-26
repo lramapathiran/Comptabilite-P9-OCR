@@ -5,9 +5,9 @@ import static org.hamcrest.CoreMatchers.is;
 import java.math.BigDecimal;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class LigneEcritureComptableTest {
+public class LigneEcritureComptableTest {
 
 	@Test
 	public void TestOnToStringMethod() {

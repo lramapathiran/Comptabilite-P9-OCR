@@ -2,7 +2,7 @@ package com.dummy.myerp.model.bean.comptabilite;
 
 import static org.hamcrest.CoreMatchers.is;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import org.junit.Assert;
 

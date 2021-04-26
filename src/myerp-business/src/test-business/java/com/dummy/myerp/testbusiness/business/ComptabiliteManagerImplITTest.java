@@ -1,25 +1,18 @@
 package com.dummy.myerp.testbusiness.business;
 
-import org.junit.Before;
-import org.junit.runner.RunWith;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.dummy.myerp.business.impl.manager.ComptabiliteManagerImpl;
-import com.dummy.myerp.model.bean.comptabilite.CompteComptable;
-import com.dummy.myerp.model.bean.comptabilite.EcritureComptable;
-import com.dummy.myerp.model.bean.comptabilite.JournalComptable;
-import com.dummy.myerp.model.bean.comptabilite.LigneEcritureComptable;
-import com.dummy.myerp.model.bean.comptabilite.SequenceEcritureComptable;
+import com.dummy.myerp.model.bean.comptabilite.*;
 import com.dummy.myerp.technical.exception.FunctionalException;
 import com.dummy.myerp.technical.exception.NotFoundException;
-
+import org.junit.Assert;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
 import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -27,15 +20,13 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:bootstrapContext.xml")
 @Transactional(propagation = Propagation.REQUIRED)
-public class ComptabiliteManagerImplIT extends BusinessTestCase{
+public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 	
 	private ComptabiliteManagerImpl manager = new ComptabiliteManagerImpl();
 
