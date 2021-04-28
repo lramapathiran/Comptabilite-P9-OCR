@@ -7,7 +7,8 @@ import org.junit.Test;
 import org.junit.Assert;
 
 public class SequenceEcritureComptableTest {
-	
+
+	// Vérifie que la méthode toString() retourne le bon résultat dans la classe SequenceEcritureComptable.java
 	@Test
 	public void TestOnToStringMethod() {
 		SequenceEcritureComptable sEComptable;

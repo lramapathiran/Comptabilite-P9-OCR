@@ -33,34 +33,39 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 	@Rule
 	public ExpectedException exceptionRule = ExpectedException.none();
 
+	//	vérifie que la liste des Ecritures Comptables est récupérée
 	@Test
 	public void getListEcritureComptableTest() {
 		List<EcritureComptable> eComptableList = manager.getListEcritureComptable();
 		assertFalse(eComptableList.isEmpty());
 		assertTrue(eComptableList.toString(), eComptableList.stream().anyMatch(o -> o.getReference().equals("VE-2016/00002")));
-	} 
-	
+	}
+
+	//	vérifie que la liste des Comptes Comptables est récupérée
 	@Test
 	public void getListCompteComptableTest() {
 		List<CompteComptable> cComptableList = manager.getListCompteComptable();
 		assertFalse(cComptableList.isEmpty());
-	} 
-	
+	}
+
+	//	vérifie que la liste des Journaux Comptables est récupérée
 	@Test
 	public void getListJournalComptableTest() {
 		List<JournalComptable> jComptableList = manager.getListJournalComptable();
 		assertFalse(jComptableList.isEmpty());
-	} 
-	
+	}
+
+	//	vérifie que l'écriture comptable est bien récupérée par son id
 	@Test
-	public void getEcritureComptableByIdtest() throws NotFoundException {
+	public void getEcritureComptableByIdTest() throws NotFoundException {
 		EcritureComptable eComptable = manager.getEcritureComptableById(-1);
 		String reference = eComptable.getReference();
 		Assert.assertEquals("AC-2016/00001",reference);
 	}
-	
+
+	//	vérifie que la Séquence d'Ecriture Comptable est récupérée en fontion de l'année d'écriture et du code journal
 	@Test
-	public void getSequenceEcritureComptableTestByYearAndCode() throws NotFoundException {
+	public void getSequenceEcritureComptableByYearAndCodeTest() throws NotFoundException {
 		
 		int year = 2016;
 		String journalCode = "AC";
@@ -68,8 +73,9 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 		SequenceEcritureComptable sec = manager.getSequenceEcritureComptableByYearAndCode(year,journalCode);
 		Integer derniereValeur = sec.getDerniereValeur();
 		Assert.assertEquals(expected, derniereValeur);
-	} 	
-	
+	}
+
+	//	vérifie que l'Ecriture Comptables est bien insérée dans la base de données
 	@Test
 	public void insertEcritureComptableTest() throws FunctionalException {
 		
@@ -93,7 +99,8 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
         assertTrue(liste.toString(), liste.stream().anyMatch(o -> o.getReference().equals("AC-2018/00001")));
 		
 	}
-	
+
+	//	vérifie que les valeurs de l'Ecriture Comptable sont mis à jour en base de données
 	@Test
 	public void updateEcritureComptableTest() throws NotFoundException, FunctionalException {
 		
@@ -113,6 +120,7 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 		
 	}
 
+	//	vérifie qu'une écriture comptable peut bien être supprimée de la DB.
 	@Test(expected = NotFoundException.class)
 	public void deleteEcritureComptableTest() throws NotFoundException{
 
@@ -121,6 +129,7 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 		manager.getEcritureComptableById(-2);
 	}
 
+	//	vérifie que la Séquence d'Ecriture Comptable est bien insérée en DB
 	@Test
 	public void insertSequenceEcritureComptableTest() throws FunctionalException, NotFoundException {
 
@@ -135,6 +144,7 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 
 	}
 
+	//	vérifie que la Séquence d'Ecriture Comptable est bien mise à jour en DB
 	@Test
 	public void updateSequenceEcritureComptableTest() throws FunctionalException, NotFoundException {
 		SequenceEcritureComptable sECDB = manager.getSequenceEcritureComptableByYearAndCode(2016,"VE");
@@ -149,8 +159,9 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 
 	}
 
+	//	vérifie que la méthode checkEcritureComptable() fonctionne sans bug
 	@Test
-	public void checkEcritureComptableInsertionTest() throws Exception {
+	public void checkEcritureComptableTest() throws Exception {
 
 		EcritureComptable eComptable = new EcritureComptable();
 		eComptable.setJournal(new JournalComptable("AC", "Achat"));
@@ -169,6 +180,7 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 		manager.checkEcritureComptable(eComptable);
 	}
 
+	//	vérifie que la règle de gestion 5 est bien vérifiée sur une ecriture comptzble qui ne la respecte pas au niveau de l'année
 	@Test(expected = FunctionalException.class)
 	public void checkEcritureComptableRG5WithYear() throws Exception {
 		EcritureComptable vEcritureComptable;
@@ -189,6 +201,7 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 		manager.checkEcritureComptable(vEcritureComptable);
 	}
 
+	//	vérifie que la règle de gestion 5 est bien vérifiée sur une ecriture comptzble qui ne la respecte pas au niveau du code journal
 	@Test(expected = FunctionalException.class)
 	public void checkEcritureComptableRG5WithCode() throws Exception {
 		EcritureComptable vEcritureComptable;
@@ -209,6 +222,7 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 		manager.checkEcritureComptable(vEcritureComptable);
 	}
 
+	//	vérifie que la violation d'écriture comptable liée au pattern de la référence d'écriture est détectée
 	@Test(expected = FunctionalException.class)
 	public void checkEcritureComptableViolationWithWrongpattern() throws Exception {
 		EcritureComptable vEcritureComptable;
@@ -229,6 +243,7 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 		manager.checkEcritureComptable(vEcritureComptable);
 	}
 
+	//	vérifie que la règle de gestion 2 est bien vérifiée sur une ecriture comptzble qui ne la respecte pas.
 	@Test(expected = FunctionalException.class)
 	public void checkEcritureComptableRG2() throws Exception {
 
@@ -246,6 +261,7 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 		manager.checkEcritureComptable(vEcritureComptable);
 	}
 
+	//	vérifie que la violation d'écriture comptable liée à la présence d'une unique ligne d'écriture est détectée
 	@Test
 	public void checkEcritureComptableViolation() throws Exception {
 
@@ -264,6 +280,7 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 		manager.checkEcritureComptable(vEcritureComptable);
 	}
 
+	//	vérifie que la règle de gestion 3 est bien vérifiée sur une ecriture comptzble qui ne la respecte pas.
 	@Test
 	public void checkEcritureComptableRG3() throws Exception {
 
@@ -285,6 +302,7 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 		manager.checkEcritureComptable(vEcritureComptable);
 	}
 
+	//	vérifie qu'une écriture comptable sans référence est bien vérifée par la méthode checkEcritureComptable()
 	@Test
 	public void checkEcritureComptableWithNoReference() throws FunctionalException{
 
@@ -303,6 +321,7 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 		manager.checkEcritureComptable(vEcritureComptable);
 	}
 
+	//	vérifie qu'une nouvelle écriture comptable possèdant une référence déjà existante est bien détectée
 	@Test
 	public void checkEcritureComptableWithReferenceMatched() throws FunctionalException, NotFoundException {
 
@@ -314,8 +333,9 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 		manager.checkEcritureComptable(vEcritureComptable);
 	}
 
+	//	vérifie qu'une écriture comptable non équilibrée est détectée
 	@Test(expected = FunctionalException.class)
-	public void checkEcritureComptableWithReferenceNoMatched() throws NotFoundException, FunctionalException{
+	public void checkEcritureComptableNonEquilibre() throws FunctionalException{
 
 		EcritureComptable vEcritureComptable;
 		vEcritureComptable = new EcritureComptable();
@@ -333,8 +353,9 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 		manager.checkEcritureComptable(vEcritureComptable);
 	}
 
+	//	vérifie qu'une écriture comptable avec une référence déjà existante est bien détectée par 2 id non identiques
 	@Test(expected = FunctionalException.class)
-	public void checkEcritureComptableWithECRefIdNotMatched() throws NotFoundException, FunctionalException{
+	public void checkEcritureComptableWithECRefIdNotMatched() throws FunctionalException{
 
 		EcritureComptable vEcritureComptable;
 		vEcritureComptable = new EcritureComptable();
@@ -356,6 +377,8 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 		manager.checkEcritureComptable(ECRef);
 	}
 
+	//	vérifie que la méthode addReference() update la séquence d'écriture comptable lorsqu'une nouvelle écriture comptable est créée
+	//	et qu'une séquence d'écriture ayant la même année que l'écriture comptable existe déjà
 	@Test
 	public void addReferenceWithUpdateSequenceTest() throws NotFoundException {
 
@@ -367,6 +390,8 @@ public class ComptabiliteManagerImplITTest extends BusinessTestCase{
 
 	}
 
+	//	vérifie que la méthode addReference() crée/insère une nouvelle séquence d'écriture comptable en DB lorsqu'une nouvelle écriture comptable est créée
+	//	et qu'aucune séquence d'écriture ayant la même année que l'écriture existe.
 	@Test
 	public void addReferenceWithInsertSequenceTest() throws NotFoundException, FunctionalException {
 

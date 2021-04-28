@@ -49,13 +49,14 @@ public class ComptabiliteManagerImplTest {
     @Mock
     private TransactionManager pTransactionManager;
     
-    
+    // Méthode d'initialisation avant chaque test unitaire pour initialiser les proxy et le transaction manager
     @Before
     public void initConfigure() {
     	ComptabiliteManagerImpl.configure(pBusinessProxy, pDaoProxy, pTransactionManager);
     	when(pDaoProxy.getComptabiliteDao()).thenReturn(comptabiliteDao);
     }
-    
+
+    // Méthode d'initialisation avant chaque test unitaire pour créer une instance du bean Ecriture Comptable
     @Before
     public void initEcritureComptable() {
 	    vEcritureComptable = new EcritureComptable();
@@ -63,7 +64,8 @@ public class ComptabiliteManagerImplTest {
 
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
-    
+
+    //	vérifie que la méthode checkEcritureComptableUnit() fonctionne sans bug avec un eecriture comptable respectant toutes les règles de gestion
     @Test
     public void checkEcritureComptableUnit() throws Exception {
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
@@ -81,7 +83,8 @@ public class ComptabiliteManagerImplTest {
         
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
-    
+
+    //	vérifie que la règle de gestion 5 est bien vérifiée sur une ecriture comptzble qui ne la respecte pas au niveau de l'année
     @Test(expected = FunctionalException.class)
     public void checkEcritureComptableUnitRG5WithYear() throws Exception {
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
@@ -99,7 +102,9 @@ public class ComptabiliteManagerImplTest {
         
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
-    
+
+
+    //	vérifie que la règle de gestion 5 est bien vérifiée sur une ecriture comptzble qui ne la respecte pas au niveau du code journal
     @Test(expected = FunctionalException.class)
     public void checkEcritureComptableUnitRG5WithCode() throws Exception {
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
@@ -117,7 +122,8 @@ public class ComptabiliteManagerImplTest {
         
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
-    
+
+    //	vérifie que la violation d'écriture comptable liée au pattern de la référence d'écriture est détectée
     @Test(expected = FunctionalException.class)
     public void checkEcritureComptableUnitViolationWithWrongpattern() throws Exception {
 
@@ -137,6 +143,7 @@ public class ComptabiliteManagerImplTest {
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
 
+    //	vérifie que la règle de gestion 2 est bien vérifiée sur une ecriture comptzble qui ne la respecte pas.
     @Test(expected = FunctionalException.class)
     public void checkEcritureComptableUnitRG2() throws Exception {
         vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
@@ -151,6 +158,7 @@ public class ComptabiliteManagerImplTest {
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
 
+    //	vérifie que la violation d'écriture comptable liée à la présence d'une unique ligne d'écriture est détectée
     @Test
     public void checkEcritureComptableUnitViolation() throws Exception {
 
@@ -167,6 +175,7 @@ public class ComptabiliteManagerImplTest {
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
 
+    //	vérifie que la règle de gestion 3 est bien vérifiée sur une ecriture comptzble qui ne la respecte pas.
     @Test
     public void checkEcritureComptableUnitRG3() throws Exception {
 
@@ -185,9 +194,9 @@ public class ComptabiliteManagerImplTest {
 
         manager.checkEcritureComptableUnit(vEcritureComptable);
     }
-    
-//    Tests unitaire avec mockito
 
+    //	vérifie que la méthode checkEcritureComptable() fonctionne sans bug pour la vérification
+    //	d'une écriture comptable avec une référence non préexistante
     @Test
     public void checkEcritureComptable() throws NotFoundException, FunctionalException {
         vEcritureComptable.setJournal(new JournalComptable("BC", "Achat"));
@@ -208,9 +217,11 @@ public class ComptabiliteManagerImplTest {
 
         manager.checkEcritureComptable(vEcritureComptable);
     }
-    
+
+    //	vérifie que la méthode checkEcritureComptableContext() fonctionne sans bug pour la vérification
+    //	d'une écriture comptable n'ayant aucune référence
     @Test
-    public void checkEcritureComptableContextWithNoReference() throws FunctionalException{
+    public void checkEcritureComptableContextWithNoReference() throws NotFoundException, FunctionalException{
     	 vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
          vEcritureComptable.setDate(new Date());
          vEcritureComptable.setLibelle("Libelle");
@@ -221,10 +232,32 @@ public class ComptabiliteManagerImplTest {
                                                                                   null, new BigDecimal(123),
                                                                                   null));
          vEcritureComptable.setReference(null);
-         
+
          manager.checkEcritureComptableContext(vEcritureComptable);
     }
-    
+
+    //	vérifie que la méthode checkEcritureComptableContext() fonctionne sans bug pour la vérification
+    //	d'une écriture comptable ayant une référence non pré-existante en DB
+    @Test
+    public void checkEcritureComptableContextWithReferenceNoMatched() throws NotFoundException, FunctionalException{
+        vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
+        vEcritureComptable.setDate(new Date());
+        vEcritureComptable.setLibelle("Libelle");
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                null, new BigDecimal(123),
+                null));
+        vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
+                null, new BigDecimal(123),
+                null));
+        vEcritureComptable.setReference("AC-2021/00002");
+        String pReference = vEcritureComptable.getReference();
+
+        when(pDaoProxy.getComptabiliteDao().getEcritureComptableByRef(pReference)).thenThrow(NotFoundException.class);
+
+        manager.checkEcritureComptableContext(vEcritureComptable);
+    }
+
+    //	vérifie qu'une nouvelle écriture comptable possèdant une référence déjà existante est bien détectée
     @Test(expected = FunctionalException.class)
     public void checkEcritureComptableContextWithReferenceMatched() throws NotFoundException, FunctionalException{
     	 vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
@@ -243,27 +276,9 @@ public class ComptabiliteManagerImplTest {
          
          manager.checkEcritureComptableContext(vEcritureComptable);
     }
-    
-  @Test(expected = FunctionalException.class)
-  public void checkEcritureComptableContextWithReferenceNoMatched() throws NotFoundException, FunctionalException{
-       vEcritureComptable.setJournal(new JournalComptable("AC", "Achat"));
-       vEcritureComptable.setDate(new Date());
-       vEcritureComptable.setLibelle("Libelle");
-       vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                                                                                null, new BigDecimal(123),
-                                                                                null));
-       vEcritureComptable.getListLigneEcriture().add(new LigneEcritureComptable(new CompteComptable(1),
-                                                                                null, new BigDecimal(123),
-                                                                                null));
-       vEcritureComptable.setReference("AC-2021/00002");
-       String pReference = vEcritureComptable.getReference();
-       
-       when(pDaoProxy.getComptabiliteDao().getEcritureComptableByRef(pReference)).thenReturn(null);
-       
-       manager.checkEcritureComptableContext(vEcritureComptable);
-  }
 
-  @Test(expected = FunctionalException.class)
+    //	vérifie qu'une écriture comptable avec une référence déjà existante est bien détectée par 2 id non identiques
+    @Test(expected = FunctionalException.class)
   public void checkEcritureComptableContextWithECRefIdNotMatched() throws NotFoundException, FunctionalException{
       vEcritureComptable.setId(-11);
       vEcritureComptable.setReference("AC-2016/00001");
@@ -277,7 +292,9 @@ public class ComptabiliteManagerImplTest {
 
       manager.checkEcritureComptableContext(vEcritureComptable);
   }
-    
+
+    //	vérifie que la méthode addReference() update la séquence d'écriture comptable lorsqu'une nouvelle écriture comptable est créée
+    //	et qu'une séquence d'écriture ayant la même année que l'écriture comptable existe déjà
     @Test
     public void addReferenceWithUpdateSequenceTest() throws NotFoundException {
 
@@ -309,6 +326,8 @@ public class ComptabiliteManagerImplTest {
 
     }
 
+    //	vérifie que la méthode addReference() crée/insère une nouvelle séquence d'écriture comptable en DB lorsqu'une nouvelle écriture comptable est créée
+    //	et qu'aucune séquence d'écriture ayant la même année que l'écriture existe.
     @Test
     public void addReferenceWithInsertSequenceTest() throws NotFoundException {
 

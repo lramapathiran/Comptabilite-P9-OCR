@@ -9,6 +9,7 @@ import org.junit.Test;
 
 public class LigneEcritureComptableTest {
 
+	// Vérifie que la méthode toString() retourne le bon résultat dans la classe LigneEcritureComptable.java
 	@Test
 	public void TestOnToStringMethod() {
 		LigneEcritureComptable lEComptable;

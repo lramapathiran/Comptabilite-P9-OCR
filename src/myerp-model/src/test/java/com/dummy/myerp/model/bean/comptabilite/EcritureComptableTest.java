@@ -22,11 +22,13 @@ public class EcritureComptableTest {
         return vRetour;
     }
 
+    // Vérifie que la méthode isEquilibree() retourne true quand l'écriture est équilibrée et false dans le cas contraire
     @Test
     public void isEquilibree() {
         EcritureComptable vEcriture;
         vEcriture = new EcritureComptable();
 
+        // l'écriture est équilibrée
         vEcriture.setLibelle("Equilibrée");
         vEcriture.getListLigneEcriture().add(this.createLigne(1, "200.50", null));
         vEcriture.getListLigneEcriture().add(this.createLigne(1, "100.50", "33"));
@@ -34,6 +36,7 @@ public class EcritureComptableTest {
         vEcriture.getListLigneEcriture().add(this.createLigne(2, "40", "7"));
         Assert.assertTrue(vEcriture.toString(), vEcriture.isEquilibree());
 
+        // l'écriture est non équilibrée
         vEcriture.getListLigneEcriture().clear();
         vEcriture.setLibelle("Non équilibrée");
         vEcriture.getListLigneEcriture().add(this.createLigne(1, "10", null));
@@ -42,7 +45,8 @@ public class EcritureComptableTest {
         vEcriture.getListLigneEcriture().add(this.createLigne(2, "1", "2"));
         Assert.assertFalse(vEcriture.toString(), vEcriture.isEquilibree());
     }
-    
+
+    // Vérifie que la méthode getTotalDebit() retourne le bon résultat de débit total
     @Test
     public void getTotalDebitTest() {
     	
@@ -58,7 +62,8 @@ public class EcritureComptableTest {
         Assert.assertEquals(vEcriture.getTotalDebit(), new BigDecimal("341.00"));
     	
     }
-    
+
+    // Vérifie que la méthode getTotalCredit() retourne le bon résultat de crédit total
     @Test
     public void getTotalCreditTest() {
     	
@@ -74,15 +79,13 @@ public class EcritureComptableTest {
         Assert.assertEquals(vEcriture.getTotalCredit(), new BigDecimal("341")); 
     	
     }
-    
+
+    // Vérifie que la méthode toString() retourne le bon résultat dans la classe EcritureComptable.java
     @Test
 	public void TestOnToStringMethod() {
     	
-//    	JournalComptable jComptable = new JournalComptable();
-//    	jComptable.setCode("AB23");
-//    	jComptable.setLibelle("Journal d'écriture");
-    	
-    	EcritureComptable vEcriture;
+
+        EcritureComptable vEcriture;
         vEcriture = new EcritureComptable();
         
         vEcriture.setDate(null);

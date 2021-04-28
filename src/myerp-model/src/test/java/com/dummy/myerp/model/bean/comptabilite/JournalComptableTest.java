@@ -9,7 +9,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class JournalComptableTest {
-	
+
+	//	Vérifie que la méthode getJournalByCode récupère le bon journal en fonction du code journal
 	@Test
 	public void getJournalComptableByCodeTest() {
 		
@@ -23,7 +24,9 @@ public class JournalComptableTest {
 		
 		Assert.assertEquals(pList.get(0), jComptable.getByCode(pList, "123"));
 	}
-	
+
+	//	Vérifie que la méthode getJournalByCode ne retourne rien
+	//	lorsque le code journal utilisé pour trouver le journal comptable dans la liste n'existe pas.
 	@Test
 	public void getJournalComptableByCodeIfCodeDontMatchTest() {
 		
@@ -37,7 +40,8 @@ public class JournalComptableTest {
 		
 		Assert.assertEquals(null, jComptable.getByCode(pList, "1253"));
 	}
-	
+
+	// Vérifie que la méthode toString() retourne le bon résultat dans la classe JournalComptable.java
 	@Test
 	public void TestOnToStringMethod() {
 		JournalComptable jComptable;

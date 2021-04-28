@@ -111,17 +111,6 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 		Integer referenceNumber = 0;
 		String journalCode = pEcritureComptable.getJournal().getCode();
 		
-		//		boucle for pour déterminer s'il existe déjà une séquence d'écriture pour l'année en question. 
-		//		Si oui, alors on update la séquence et on l'enregistre en DB.	
-//		for (SequenceEcritureComptable sEComptable : this.getListSequenceEcritureComptable()) {
-//			int sYear = sEComptable.getAnnee();
-//			if(sYear == year) {
-//				referenceNumber = sEComptable.getDerniereValeur() + 1;				
-//				sEComptable.setDerniereValeur(referenceNumber);
-//				getDaoProxy().getComptabiliteDao().updateSequenceEcritureComptable(sEComptable);
-//				break;				
-//			}
-//		}
 		try {
             SequenceEcritureComptable sEComptable = getSequenceEcritureComptableByYearAndCode(year, journalCode);
             referenceNumber = sEComptable.getDerniereValeur() + 1;
@@ -144,8 +133,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
 		for(int i=0; i<zeroToAdd; i++) {
 			endRef = "0" + endRef;
 		}
-		
-		
+
 		String anneeForReference = year.toString();
 		String referenceNum = referenceNumber.toString();
 		String code = pEcritureComptable.getJournal().getCode();
@@ -291,6 +279,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
      */
     @Override
     public void updateEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException {
+//        Erreur numéro 5 corrigée par ajout de la méthode checkEcritureComptable()
         checkEcritureComptable(pEcritureComptable);
         TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
         try {
