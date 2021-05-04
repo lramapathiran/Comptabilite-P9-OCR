@@ -84,12 +84,9 @@ public interface ComptabiliteDao {
     
   //Ajout de méthodes pour Todo pour récupérer les Sequences d'Ecriture Comptable
     /**
-     * Renvoie la liste des Sequence d'Ecriture Comptable
+     * Renvoie la Sequence d'Ecriture Comptable recherchée
      * @return {@link List}
      */
-//    List<SequenceEcritureComptable> getListSequenceEcritureComptable();
-//    void loadListSequenceEcritureComptable(JournalComptable pJournalComptable);
-    
     SequenceEcritureComptable getSequenceEcritureComptableByYearAndCode(Integer pYear, String pJournalCode) throws NotFoundException;
     
 //  AJOUT DE METHODES INSERT/UPDATE POUR COMPLETER TODO dans addReference() dans ComptabiliteManagerImpl

@@ -28,7 +28,7 @@ public class CompteComptableTest {
 		
 	}
 
-	// Vériie que la méthode getByNumero(), ne reourne rien si le numéro du compte comptable recherché n'existe pas dans la liste
+	// Vériie que la méthode getByNumero(), ne retourne rien si le numéro du compte comptable recherché n'existe pas dans la liste
 	@Test
 	public void getCompteComptableByNumeroIfNumberDontMatchTest() {
 		

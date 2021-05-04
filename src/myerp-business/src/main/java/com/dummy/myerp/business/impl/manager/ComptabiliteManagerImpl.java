@@ -66,8 +66,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     	return getDaoProxy().getComptabiliteDao().getSequenceEcritureComptableByYearAndCode(year, journalCode);
     }
     
-    
-//    Test
+
     @Override
     public EcritureComptable getEcritureComptableById(int id) throws NotFoundException {
         EcritureComptable eComptable = null;
@@ -280,7 +279,7 @@ public class ComptabiliteManagerImpl extends AbstractBusinessManager implements 
     @Override
     public void updateEcritureComptable(EcritureComptable pEcritureComptable) throws FunctionalException {
 //        Erreur numéro 5 corrigée par ajout de la méthode checkEcritureComptable()
-        checkEcritureComptable(pEcritureComptable);
+        this.checkEcritureComptable(pEcritureComptable);
         TransactionStatus vTS = getTransactionManager().beginTransactionMyERP();
         try {
             getDaoProxy().getComptabiliteDao().updateEcritureComptable(pEcritureComptable);

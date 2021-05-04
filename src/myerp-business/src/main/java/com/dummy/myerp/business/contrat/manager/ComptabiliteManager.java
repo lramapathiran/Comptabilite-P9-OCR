@@ -86,14 +86,13 @@ public interface ComptabiliteManager {
      */
     void deleteEcritureComptable(Integer pId);
     
- // Methode ajouté pour la todo dans com.dummy.myerp.business.impl.manager;
+ // Methodes ajoutées pour la todo dans com.dummy.myerp.business.impl.manager;
     /**
-     * Renvoie la liste des Sequence d'Ecriture Comptable.
+     * Renvoie la Sequence d'Ecriture Comptable.
      *
      * @return {@link List}
      * @throws NotFoundException 
      */
-//    List<SequenceEcritureComptable> getListSequenceEcritureComptable();    
     SequenceEcritureComptable getSequenceEcritureComptableByYearAndCode(Integer year, String journalCode) throws NotFoundException;
 
 //  AJOUT DE METHODES INSERT/UPDATE SequenceEcritureComptable POUR COMPLETER TODO dans addReference() dans ComptabiliteManagerImpl
@@ -117,6 +116,5 @@ public interface ComptabiliteManager {
 	void updateSequenceEcritureComptable(SequenceEcritureComptable pSequenceEcritureComptable)
 			throws FunctionalException;
 
-//	Test
 	EcritureComptable getEcritureComptableById(int id) throws NotFoundException;
 }

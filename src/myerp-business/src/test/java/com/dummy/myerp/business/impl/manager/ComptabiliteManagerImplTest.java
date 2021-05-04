@@ -279,7 +279,7 @@ public class ComptabiliteManagerImplTest {
 
     //	vérifie qu'une écriture comptable avec une référence déjà existante est bien détectée par 2 id non identiques
     @Test(expected = FunctionalException.class)
-  public void checkEcritureComptableContextWithECRefIdNotMatched() throws NotFoundException, FunctionalException{
+    public void checkEcritureComptableContextWithECRefIdNotMatched() throws NotFoundException, FunctionalException{
       vEcritureComptable.setId(-11);
       vEcritureComptable.setReference("AC-2016/00001");
       String pReference = vEcritureComptable.getReference();

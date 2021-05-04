@@ -269,40 +269,11 @@ public class ComptabiliteDaoImpl extends AbstractDbConsumer implements Comptabil
         vSqlParams.addValue("ecriture_id", pEcritureId);
         vJdbcTemplate.update(SQLdeleteListLigneEcritureComptable, vSqlParams);
     }
-    
-//  /** SQLloadSequenceEcritureComptable */
-//  private static String SQLloadListSequenceEcritureComptable;
-//  public void setSQLloadListSequenceEcritureComptable(String pSQLloadListSequenceEcritureComptable) {
-//      SQLloadListSequenceEcritureComptable = pSQLloadListSequenceEcritureComptable;
-//  }
-//  @Override
-//  public void loadListSequenceEcritureComptable(JournalComptable pJournalComptable) {
-//      NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource(DataSourcesEnum.MYERP));
-//      MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
-//      vSqlParams.addValue("journal_code", pJournalComptable.getCode());
-//      LigneEcritureComptableRM vRM = new LigneEcritureComptableRM();
-//      List<SequenceEcritureComptable> vList = vJdbcTemplate.query(SQLloadListSequenceEcritureComptable, vSqlParams, vRM);
-//      pJournalComptable.getListSequenceEcritureComptable().clear();
-//      pJournalComptable.getListSequenceEcritureComptable().addAll(vList); 
-//  }
-  
   
   // ==================== Ajout Méthode pour Todo ====================
-  // Ajout de requêtes SQL pour récupérer la liste de SequenceEcritureComptable
-  // pour todo dans com.dummy.myerp.business.impl.manager   
-//  /** SQLgetListSequenceEcritureComptable */
-//  private static String SQLgetListSequenceEcritureComptable;
-//  public void setSQLgetListSequenceEcritureComptable(String pSQLgetListSequenceEcritureComptable) {
-//      SQLgetListSequenceEcritureComptable = pSQLgetListSequenceEcritureComptable;
-//  }
-//  @Override
-//  public List<SequenceEcritureComptable> getListSequenceEcritureComptable() {
-//      JdbcTemplate vJdbcTemplate = new JdbcTemplate(this.getDataSource(DataSourcesEnum.MYERP));
-//      SequenceEcritureComptableRM vRM = new SequenceEcritureComptableRM();
-//      List<SequenceEcritureComptable> vList = vJdbcTemplate.query(SQLgetListSequenceEcritureComptable, vRM);
-//      return vList;
-//  }
-  
+  // Ajout de requêtes SQL pour récupérer la SequenceEcritureComptable en fonction de l'année d'écriture et le code journal
+  // pour todo dans com.dummy.myerp.business.impl.manager
+
   /** SQLgetSequenceEcritureComptableByYearAndCode */
     private static String SQLgetSequenceEcritureComptableByYearAndCode;
     public void setSQLgetSequenceEcritureComptableByYearAndCode(String pSQLgetSequenceEcritureComptableByYearAndCode) {
